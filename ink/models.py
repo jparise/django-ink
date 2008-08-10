@@ -62,7 +62,8 @@ class EntryAdmin(admin.ModelAdmin):
     list_filter = ('status',)
 
     fieldsets = (
-        ('Content',  {'fields': ('title', 'summary', 'body')}),
+        ('Content',  {'fields': ('title', 'summary', 'body'),
+                      'classes': ('monospace',)}),
         ('Metadata', {'fields': ('slug', 'pub_date', 'author', 'tags')}),
         ('Options',  {'fields': ('status', 'commentable')}),
     )
