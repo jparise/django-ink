@@ -9,7 +9,7 @@ from distutils.core import setup
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
-    platform-neurtral ay.
+    platform-neutral ay.
     """
     if result is None:
         result = []
@@ -41,13 +41,12 @@ else:
 for dirpath, dirnames, filenames in os.walk(ink_dir):
     # Ignore dirnames that start with '.'
     for i, dirname in enumerate(dirnames):
-        if dirname.startswith('.'):
-            del dirnames[i]
-        if '__init__.py' in filenames:
-            packages.append('.'.join(fullsplit(dirpath)[len_root_dir:]))
-        elif filenames:
-            data_files.append([dirpath,
-                               [os.path.join(dirpath, f) for f in filenames]])
+        if dirname.startswith('.'): del dirnames[i]
+    if '__init__.py' in filenames:
+        packages.append('.'.join(fullsplit(dirpath)[len_root_dir:]))
+    elif filenames:
+        data_files.append([dirpath,
+                          [os.path.join(dirpath, f) for f in filenames]])
 
 setup(
     name = 'ink',
