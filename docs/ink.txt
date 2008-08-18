@@ -1,0 +1,80 @@
+================
+ Ink for Django
+================
+
+--------------------
+ User Documentation
+--------------------
+
+:Author:    Jon Parise
+:Contact:   jon@indelible.org
+
+.. contents:: Contents
+   :depth: 2
+
+.. section-numbering::
+
+Overview
+========
+Ink is a blogging application for `Django`_.
+
+.. _Django: http://www.djangoproject.com/
+
+Requirements
+------------
+The Ink application has the following requirements:
+
+- `Django`_ version 1.0 or later
+- `django-tagging`_ revision r145 or later
+
+.. _django-tagging: http://code.google.com/p/django-tagging/
+
+Installation
+------------
+*TODO*
+
+Source Code
+-----------
+This application's source code is hosted on `BitBucket`_, which uses the
+excellent `Mercurial`_ distributed version control system.
+
+- http://www.bitbucket.org/jparise/django-ink/
+
+.. _BitBucket: http://www.bitbucket.org/
+.. _Mercurial: http://www.selenic.com/mercurial/
+
+Usage
+=====
+*TODO*
+
+Template Tags
+-------------
+*TODO*
+
+Development and Support
+=======================
+
+Reporting Problems and Suggestions
+----------------------------------
+If you run into a problem or would like to make a suggestion, please use the
+`Issue Tracker`_.  Feel free to contact me directly for other issues, but
+please try to use the bug tracker whenever possible so that others in the
+community will benefit from your feedback and my responses.
+
+- `Open Issues`_
+- `Create a New Issue`_
+
+.. _Issue Tracker: http://www.bitbucket.org/jparise/django-ink/issues/
+.. _Open Issues: http://www.bitbucket.org/jparise/django-ink/issues/?status=new&status=open
+.. _Create a New Issue: http://www.bitbucket.org/jparise/django-ink/issues/new/
+
+Coming Soon
+-----------
+This section contains a list of "todo" items that will hopefully be addressed
+in future releases.
+
+- *No items at this time.*
+
+If you have feature suggestions, please submit them using the `Issue Tracker`_.
+
+.. vim: tabstop=4 shiftwidth=4 softtabstop=4 expandtab textwidth=78 ft=rst:
