@@ -1,12 +1,18 @@
 from django.conf.urls.defaults import *
 from django.views.generic import date_based, list_detail
+
 from tagging.views import tagged_object_list
 
 from ink.models import Entry
+from ink.views import flat_object_detail
 
 entry_info_dict = {
     'queryset': Entry.public.all(),
     'date_field': 'pub_date',
+}
+
+flat_entry_info_dict = {
+    'queryset': Entry.public.all(),
 }
 
 tag_info_dict = {
@@ -39,6 +45,11 @@ urlpatterns = patterns('',
         date_based.object_detail,
         dict(entry_info_dict, slug_field='slug'),
         name='ink_entry_detail'),
+
+    url(r'^(?P<slug>[-\w]+)/$',
+        flat_object_detail,
+        dict(flat_entry_info_dict, slug_field='slug'),
+        name='ink_flat_entry_detail'),
 
     url(r'^tags/(?P<tag>[^/]+)/$',
         tagged_object_list,

@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 import tagging
 import tagging.fields
 
+from ink import settings
+
 # Status Constants
 STATUS_PUBLIC, STATUS_DRAFT, STATUS_HIDDEN = 1, 2, 3
 STATUSES = (
@@ -49,11 +51,15 @@ class Entry(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('ink_entry_detail', (),
-                    {'year': self.pub_date.strftime('%Y'),
-                     'month': self.pub_date.strftime('%b').lower(),
-                     'day': self.pub_date.strftime('%d'),
-                     'slug': self.slug})
+        if settings.INK_FLAT_URLS:
+            return ('ink_flat_entry_detail', (),
+                        {'slug': self.slug})
+        else:
+            return ('ink_entry_detail', (),
+                        {'year': self.pub_date.strftime('%Y'),
+                         'month': self.pub_date.strftime('%b').lower(),
+                         'day': self.pub_date.strftime('%d'),
+                         'slug': self.slug})
 
 class EntryAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
