@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic import date_based, list_detail
+from django.views.generic import date_based
 
 from tagging.views import tagged_object_list
 
