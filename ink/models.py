@@ -17,6 +17,12 @@ STATUSES = (
     (STATUS_HIDDEN, 'Hidden'),
 )
 
+def render(text):
+    """Renders a block of text using Docutils."""
+    from docutils import core
+    parts = core.publish_parts(source=text, writer_name='html4css1')
+    return parts['fragment']
+
 class PublicEntryManager(models.Manager):
     def get_query_set(self):
         return super(PublicEntryManager, self).get_query_set().filter(status__exact=STATUS_PUBLIC)
@@ -24,7 +30,7 @@ class PublicEntryManager(models.Manager):
 class Entry(models.Model):
     # Metadata
     author = models.ForeignKey(User)
-    pub_date = models.DateTimeField(u'Publish Data', default=datetime.today)
+    pub_date = models.DateTimeField(u'Publish Date', default=datetime.today)
     slug = models.SlugField(unique_for_date='pub_date')
     tags = tagging.fields.TagField()
 
@@ -37,6 +43,10 @@ class Entry(models.Model):
     summary = models.TextField(blank=True, null=True)
     body = models.TextField()
 
+    # Rendered Content
+    summary_html = models.TextField(blank=True, null=True, editable=False)
+    body_html = models.TextField(blank=True, editable=False)
+
     # Managers
     objects = models.Manager()
     public = PublicEntryManager()
@@ -48,6 +58,12 @@ class Entry(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def save(self):
+        if self.summary:
+            self.summary_html = render(self.summary)
+        self.body_html = render(self.body)
+        super(Entry, self).save()
 
     @models.permalink
     def get_absolute_url(self):
