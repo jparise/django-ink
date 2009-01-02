@@ -8,12 +8,18 @@ class EntryAdmin(admin.ModelAdmin):
     search_fields = ('title', 'summary', 'body')
     list_display = ('title', 'pub_date', 'author', 'tags')
     list_filter = ('status',)
+    exclude = ('author',)
 
     fieldsets = (
         ('Content',  {'fields': ('title', 'summary', 'body'),
                       'classes': ('monospace',)}),
-        ('Metadata', {'fields': ('slug', 'pub_date', 'author', 'tags')}),
+        ('Metadata', {'fields': ('slug', 'pub_date', 'tags')}),
         ('Options',  {'fields': ('status', 'commentable')}),
     )
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.author = request.user
+        obj.save()
 
 admin.site.register(Entry, EntryAdmin)
