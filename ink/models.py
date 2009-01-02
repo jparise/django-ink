@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 import tagging
 import tagging.fields
 
-from ink import settings
+from ink import markup, settings
 
 # Status Constants
 STATUS_PUBLIC, STATUS_DRAFT, STATUS_HIDDEN = 1, 2, 3
@@ -15,12 +15,6 @@ STATUSES = (
     (STATUS_DRAFT,  'Draft'),
     (STATUS_HIDDEN, 'Hidden'),
 )
-
-def render(text):
-    """Renders a block of text using Docutils."""
-    from docutils import core
-    parts = core.publish_parts(source=text, writer_name='html4css1')
-    return parts['fragment']
 
 class PublicEntryManager(models.Manager):
     def get_query_set(self):
@@ -60,8 +54,8 @@ class Entry(models.Model):
 
     def save(self):
         if self.summary:
-            self.summary_html = render(self.summary)
-        self.body_html = render(self.body)
+            self.summary_html = markup.render(self.summary)
+        self.body_html = markup.render(self.body)
         super(Entry, self).save()
 
     @models.permalink
