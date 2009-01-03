@@ -34,7 +34,6 @@ class Entry(models.Model):
     # Content
     title = models.CharField(max_length=160)
     summary = models.TextField(blank=True, null=True)
-    body = models.TextField()
 
     # Rendered Content
     summary_html = models.TextField(blank=True, null=True, editable=False)
@@ -55,7 +54,6 @@ class Entry(models.Model):
     def save(self):
         if self.summary:
             self.summary_html = markup.render(self.summary)
-        self.body_html = markup.render(self.body)
         super(Entry, self).save()
 
     @models.permalink
@@ -69,5 +67,26 @@ class Entry(models.Model):
                          'month': self.pub_date.strftime('%b').lower(),
                          'day': self.pub_date.strftime('%d'),
                          'slug': self.slug})
+
+class Article(Entry):
+    path = models.FilePathField(path=settings.INK_ARTICLES_PATH, match="\.txt$")
+
+    class Meta:
+        verbose_name_plural = 'Articles'
+
+    def save(self):
+        content = open(self.path, 'r')
+        self.body_html = markup.render(content.read())
+        super(Article, self).save()
+
+class Note(Entry):
+    body = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Notes'
+
+    def save(self):
+        self.body_html = markup.render(self.body)
+        super(Note, self).save()
 
 tagging.register(Entry, 'tag_set')
