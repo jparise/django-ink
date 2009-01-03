@@ -22,13 +22,11 @@ class Entry(models.Model):
     # Metadata
     author = models.ForeignKey(User)
     pub_date = models.DateTimeField(u'Publish Date', default=datetime.today)
-    slug = models.SlugField(unique_for_date='pub_date')
-
-    # Options
     status = models.SmallIntegerField(choices=STATUSES, default=STATUS_DRAFT)
     commentable = models.BooleanField(default=True)
 
     # Content
+    slug = models.SlugField(unique_for_date='pub_date')
     title = models.CharField(max_length=160)
     content = models.TextField(blank=True, editable=False)
 

@@ -10,10 +10,9 @@ class EntryAdmin(admin.ModelAdmin):
     exclude = ('author',)
 
     fieldsets = (
-        ('Content',  {'fields': ('title',),
+        ('Content',  {'fields': ('title', 'slug'),
                       'classes': ('monospace',)}),
-        ('Metadata', {'fields': ('slug', 'pub_date')}),
-        ('Options',  {'fields': ('status', 'commentable')}),
+        ('Metadata', {'fields': ('pub_date', 'status', 'commentable')}),
     )
 
     def save_model(self, request, obj, form, change):
@@ -25,20 +24,18 @@ class ArticleAdmin(EntryAdmin):
     search_fields = ('title',)
 
     fieldsets = (
-        ('Content',  {'fields': ('title', 'path'),
+        ('Content',  {'fields': ('title', 'slug', 'path'),
                       'classes': ('monospace',)}),
-        ('Metadata', {'fields': ('slug', 'pub_date')}),
-        ('Options',  {'fields': ('status', 'commentable')}),
+        ('Metadata', {'fields': ('pub_date', 'status', 'commentable')}),
     )
 
 class NoteAdmin(EntryAdmin):
     search_fields = ('title', 'text')
 
     fieldsets = (
-        ('Content',  {'fields': ('title', 'text'),
+        ('Content',  {'fields': ('title', 'slug', 'text'),
                       'classes': ('monospace',)}),
-        ('Metadata', {'fields': ('slug', 'pub_date')}),
-        ('Options',  {'fields': ('status', 'commentable')}),
+        ('Metadata', {'fields': ('pub_date', 'status', 'commentable')}),
     )
 
 admin.site.register(Entry, EntryAdmin)
