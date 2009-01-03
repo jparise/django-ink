@@ -33,11 +33,7 @@ class Entry(models.Model):
 
     # Content
     title = models.CharField(max_length=160)
-    summary = models.TextField(blank=True, null=True)
-
-    # Rendered Content
-    summary_html = models.TextField(blank=True, null=True, editable=False)
-    body_html = models.TextField(blank=True, editable=False)
+    content = models.TextField(blank=True, editable=False)
 
     # Managers
     objects = models.Manager()
@@ -50,11 +46,6 @@ class Entry(models.Model):
 
     def __unicode__(self):
         return self.title
-
-    def save(self):
-        if self.summary:
-            self.summary_html = markup.render(self.summary)
-        super(Entry, self).save()
 
     @models.permalink
     def get_absolute_url(self):
@@ -75,18 +66,17 @@ class Article(Entry):
         verbose_name_plural = 'Articles'
 
     def save(self):
-        content = open(self.path, 'r')
-        self.body_html = markup.render(content.read())
+        self.content = markup.render(file(self.path, 'r').read())
         super(Article, self).save()
 
 class Note(Entry):
-    body = models.TextField()
+    text = models.TextField()
 
     class Meta:
         verbose_name_plural = 'Notes'
 
     def save(self):
-        self.body_html = markup.render(self.body)
+        self.content = markup.render(self.text)
         super(Note, self).save()
 
 tagging.register(Entry, 'tag_set')

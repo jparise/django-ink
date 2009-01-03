@@ -10,7 +10,7 @@ class EntryAdmin(admin.ModelAdmin):
     exclude = ('author',)
 
     fieldsets = (
-        ('Content',  {'fields': ('title', 'summary'),
+        ('Content',  {'fields': ('title',),
                       'classes': ('monospace',)}),
         ('Metadata', {'fields': ('slug', 'pub_date', 'tags')}),
         ('Options',  {'fields': ('status', 'commentable')}),
@@ -22,20 +22,20 @@ class EntryAdmin(admin.ModelAdmin):
         obj.save()
 
 class ArticleAdmin(EntryAdmin):
-    search_fields = ('title', 'summary')
+    search_fields = ('title',)
 
     fieldsets = (
-        ('Content',  {'fields': ('title', 'summary', 'path'),
+        ('Content',  {'fields': ('title', 'path'),
                       'classes': ('monospace',)}),
         ('Metadata', {'fields': ('slug', 'pub_date', 'tags')}),
         ('Options',  {'fields': ('status', 'commentable')}),
     )
 
 class NoteAdmin(EntryAdmin):
-    search_fields = ('title', 'summary', 'body')
+    search_fields = ('title', 'text')
 
     fieldsets = (
-        ('Content',  {'fields': ('title', 'summary', 'body'),
+        ('Content',  {'fields': ('title', 'text'),
                       'classes': ('monospace',)}),
         ('Metadata', {'fields': ('slug', 'pub_date', 'tags')}),
         ('Options',  {'fields': ('status', 'commentable')}),
