@@ -1,8 +1,6 @@
 from django.conf.urls.defaults import *
 from django.views.generic import date_based
 
-from tagging.views import tagged_object_list
-
 from ink.models import Entry
 from ink.views import flat_object_detail
 
@@ -13,11 +11,6 @@ entry_info_dict = {
 
 flat_entry_info_dict = {
     'queryset': Entry.public.all(),
-}
-
-tag_info_dict = {
-    'queryset_or_model': Entry.public.all(),
-    'allow_empty': False,
 }
 
 urlpatterns = patterns('',
@@ -50,9 +43,4 @@ urlpatterns = patterns('',
         flat_object_detail,
         dict(flat_entry_info_dict, slug_field='slug'),
         name='ink_flat_entry_detail'),
-
-    url(r'^tags/(?P<tag>[^/]+)/$',
-        tagged_object_list,
-        dict(tag_info_dict, template_name='ink/tagged_entry_list.html'),
-        name='ink_tag_detail'),
 )

@@ -25,9 +25,6 @@ Requirements
 The Ink application has the following requirements:
 
 - `Django`_ version 1.0 or later
-- `django-tagging`_ revision r145 or later
-
-.. _django-tagging: http://code.google.com/p/django-tagging/
 
 Installation
 ------------

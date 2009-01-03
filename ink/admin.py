@@ -5,14 +5,14 @@ from ink.models import Entry, Article, Note
 class EntryAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ('title', 'pub_date', 'author', 'tags')
+    list_display = ('title', 'pub_date', 'author')
     list_filter = ('status',)
     exclude = ('author',)
 
     fieldsets = (
         ('Content',  {'fields': ('title',),
                       'classes': ('monospace',)}),
-        ('Metadata', {'fields': ('slug', 'pub_date', 'tags')}),
+        ('Metadata', {'fields': ('slug', 'pub_date')}),
         ('Options',  {'fields': ('status', 'commentable')}),
     )
 
@@ -27,7 +27,7 @@ class ArticleAdmin(EntryAdmin):
     fieldsets = (
         ('Content',  {'fields': ('title', 'path'),
                       'classes': ('monospace',)}),
-        ('Metadata', {'fields': ('slug', 'pub_date', 'tags')}),
+        ('Metadata', {'fields': ('slug', 'pub_date')}),
         ('Options',  {'fields': ('status', 'commentable')}),
     )
 
@@ -37,7 +37,7 @@ class NoteAdmin(EntryAdmin):
     fieldsets = (
         ('Content',  {'fields': ('title', 'text'),
                       'classes': ('monospace',)}),
-        ('Metadata', {'fields': ('slug', 'pub_date', 'tags')}),
+        ('Metadata', {'fields': ('slug', 'pub_date')}),
         ('Options',  {'fields': ('status', 'commentable')}),
     )
 

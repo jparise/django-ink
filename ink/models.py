@@ -3,9 +3,6 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
-import tagging
-import tagging.fields
-
 from ink import markup, settings
 
 # Status Constants
@@ -26,7 +23,6 @@ class Entry(models.Model):
     author = models.ForeignKey(User)
     pub_date = models.DateTimeField(u'Publish Date', default=datetime.today)
     slug = models.SlugField(unique_for_date='pub_date')
-    tags = tagging.fields.TagField()
 
     # Options
     status = models.SmallIntegerField(choices=STATUSES, default=STATUS_DRAFT)
@@ -79,5 +75,3 @@ class Note(Entry):
     def save(self):
         self.content = markup.render(self.text)
         super(Note, self).save()
-
-tagging.register(Entry, 'tag_set')
