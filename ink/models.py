@@ -13,6 +13,21 @@ STATUSES = (
     (STATUS_HIDDEN, 'Hidden'),
 )
 
+class Category(models.Model):
+    slug = models.SlugField(unique=True)
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+        ordering = ('name',)
+
+    def __unicode__(self):
+        return self.name
+
+    @property
+    def public_entry_set(self):
+        return self.entry_set.filter(status__exact=STATUS_PUBLIC)
+
 class PublicEntryManager(models.Manager):
     def get_query_set(self):
         query_set = super(PublicEntryManager, self).get_query_set()
@@ -24,6 +39,7 @@ class Entry(models.Model):
     pub_date = models.DateTimeField(u'Publish Date', default=datetime.today)
     status = models.SmallIntegerField(choices=STATUSES, default=STATUS_DRAFT)
     commentable = models.BooleanField(default=True)
+    categories = models.ManyToManyField(Category, blank=True)
 
     # Content
     slug = models.SlugField(unique_for_date='pub_date')
