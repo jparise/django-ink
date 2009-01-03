@@ -18,7 +18,8 @@ STATUSES = (
 
 class PublicEntryManager(models.Manager):
     def get_query_set(self):
-        return super(PublicEntryManager, self).get_query_set().filter(status__exact=STATUS_PUBLIC)
+        query_set = super(PublicEntryManager, self).get_query_set()
+        return query_set.filter(status__exact=STATUS_PUBLIC)
 
 class Entry(models.Model):
     # Metadata
