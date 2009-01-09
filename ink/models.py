@@ -42,7 +42,8 @@ class Entry(models.Model):
     categories = models.ManyToManyField(Category, blank=True)
 
     # Content
-    slug = models.SlugField(unique_for_date='pub_date')
+    slug = models.SlugField(unique=settings.INK_FLAT_URLS,
+                            unique_for_date='pub_date')
     title = models.CharField(max_length=160)
     content = models.TextField(blank=True, editable=False)
 
