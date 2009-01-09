@@ -1,3 +1,7 @@
+from ink import settings
+
+from django.utils.encoding import smart_str, force_unicode
+
 from docutils import nodes
 from docutils.parsers.rst import directives
 try:
@@ -85,5 +89,13 @@ directives.register_directive('code-block', code_block_directive)
 def render(text):
     """Renders a block of text using Docutils."""
     from docutils.core import publish_parts
-    parts = publish_parts(source=text, writer_name='html4css1')
-    return parts['fragment']
+
+    overrides = settings.INK_DOCUTILS_SETTINGS
+    overrides['_disable_config'] = True
+    overrides['raw_enabled'] = False
+    overrides['file_insertion_enabled'] = False
+    # TODO: 'warning_stream'
+
+    parts = publish_parts(source=smart_str(text), writer_name='html4css1',
+                          settings_overrides=overrides)
+    return force_unicode(parts['fragment'])
