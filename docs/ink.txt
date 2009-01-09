@@ -40,8 +40,12 @@ excellent `Mercurial`_ distributed version control system.
 .. _BitBucket: http://www.bitbucket.org/
 .. _Mercurial: http://www.selenic.com/mercurial/
 
-Usage
-=====
+Reference
+=========
+*TODO*
+
+Settings
+--------
 *TODO*
 
 Template Tags
