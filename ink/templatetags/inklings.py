@@ -1,8 +1,38 @@
 import datetime
 from django import template
-from ink.models import Entry
+from ink.models import Category, Entry
 
 register = template.Library()
+
+class CategoriesNode(template.Node):
+    def __init__(self, varname):
+        self.varname = varname
+
+    def render(self, context):
+        context[self.varname] = Category.objects.all()
+        return ''
+
+@register.tag
+def get_categories(parser, token):
+    """
+    This will return an ordered list of all available categories.
+
+    Usage::
+
+        {% get_categories as categories %}
+    """
+    try:
+        tag, _as, varname = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, \
+            "%r tag takes two arguments" % token.contents.split()[0]
+
+    if _as != 'as':
+        raise template.TemplateSyntaxError, \
+            "First argument to %r tag must be 'as'" % tag
+
+    return CategoriesNode(varname)
+
 
 class LatestEntriesNode(template.Node):
     def __init__(self, num, varname):
