@@ -51,6 +51,8 @@ class Entry(models.Model):
     objects = models.Manager()
     public = PublicEntryManager()
 
+    has_preview = True
+
     class Meta:
         verbose_name_plural = 'Entries'
         ordering = ('-pub_date',)
