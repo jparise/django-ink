@@ -86,7 +86,7 @@ code_block_directive.arguments = (1, 0, 1)
 code_block_directive.content = 1
 directives.register_directive('code-block', code_block_directive)
 
-def render(text):
+def _docutils(text):
     """Renders a block of text using Docutils."""
     from docutils.core import publish_parts
 
@@ -99,3 +99,19 @@ def render(text):
     parts = publish_parts(source=smart_str(text), writer_name='html4css1',
                           settings_overrides=overrides)
     return force_unicode(parts['fragment'])
+
+def _smartypants(text):
+    """Applies SmartyPants transformations to a block of text."""
+    text = force_unicode(text)
+    try:
+        import smartypants
+    except ImportError:
+        return text
+    else:
+        return smartypants.smartyPants(text)
+
+def render(text):
+    """Renders a block of text."""
+    text = _docutils(text)
+    text = _smartypants(text)
+    return text
