@@ -1,7 +1,9 @@
 from django.template import loader, RequestContext
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.xheaders import populate_xheaders
 from django.http import Http404, HttpResponse
+from django.views.generic.list_detail import object_detail
 
 def flat_object_detail(request, queryset, object_id=None, slug=None,
         slug_field='slug', template_name=None, template_name_field=None,
@@ -54,3 +56,24 @@ def flat_object_detail(request, queryset, object_id=None, slug=None,
     response = HttpResponse(t.render(c), mimetype=mimetype)
     populate_xheaders(request, response, model, getattr(obj, obj._meta.pk.name))
     return response
+
+@staff_member_required
+def preview_object_detail(request, queryset, object_id, template_name=None,
+        **kwargs):
+    """
+    Preview detail view from object_id.
+
+    Templates: ``<app_label>/<model_name>_preview.html``
+    Context:
+        object:
+            the object to be previewed
+    """
+    if not object_id:
+        raise AttributeError, "Preview view must be called with an object_id"
+
+    if not template_name:
+        model = queryset.model
+        template_name = "%s/%s_preview.html" % (model._meta.app_label, model._meta.object_name.lower())
+
+    return object_detail(request, queryset, object_id=object_id,
+            template_name=template_name, **kwargs)
