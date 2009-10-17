@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 
 from ink.models import Category, Entry, Article, Note
@@ -38,8 +39,17 @@ class ArticleAdmin(EntryAdmin):
                                  'commentable')}),
     )
 
+class NoteAdminForm(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea(attrs={'rows':20,
+                                                        'cols':80}),
+        help_text='<a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText Quick Reference</a>')
+
+    class Meta:
+        model = Note
+
 class NoteAdmin(EntryAdmin):
     search_fields = ('title', 'text')
+    form = NoteAdminForm
 
     fieldsets = (
         ('Content',  {'fields': ('title', 'slug', 'text'),
